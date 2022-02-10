@@ -1,0 +1,5 @@
+dist-newstyle
+src/Botanica/NFTPolicyOLD.hs
+src/Botanica/NFTPolicyPOTENTIAL.hs
+src/Botanica/CounterValidatorMOD.hs
+src/Botanica/CounterValidatorBACKUP.hs
