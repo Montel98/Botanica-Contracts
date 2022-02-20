@@ -67,8 +67,6 @@ mkValidator cp d _ ctx = {-counterInOutput scriptOutput &&-}
                                   checkMintedAmount &&
                                   isNewCountValid d newCounter 
                                   && txSignedByApp
-                                  {-&& getCounterName scriptOutput == getCounterName scriptInput-}
-                                  {-&& paidToApp-}
     where
         info :: TxInfo
         info = scriptContextTxInfo ctx
@@ -113,7 +111,7 @@ mkValidator cp d _ ctx = {-counterInOutput scriptOutput &&-}
         txSignedByApp = txSignedBy info $ appKeyHash cp
 
         mintLimit :: Integer
-        mintLimit = 10000
+        mintLimit = 1000
 
         cSymbol, symbol :: CurrencySymbol
         cSymbol = counterSymbol cp
