@@ -2,6 +2,9 @@
 
 This repository contains the current iteration of plutus scripts to be used in Botanica. Overviews and installation instructions are detailed below.
 
+- [src/Botanica](src/Botanica) contains the actual Haskell source code.
+- [app](app) contains the boilerplate scripts required to compile the Haskell source code to Plutus Bytecode.
+
 ## CounterNFT Plutus Script
 
 This script creates an NFT by ensuring that a specific UTXO is spent with the transaction. This enforces 'non-fungibility' as a UTXO can only be spent once.
