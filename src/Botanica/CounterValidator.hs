@@ -60,7 +60,7 @@ intToHexInner count hexString
     | count `quotient` 10 == 0 = hexString
     | otherwise = appendByteString (intToHexInner (count `quotient` 10) (digitToHex (count `quotient` 10))) (digitToHex (count `remainder` 10))
 
--- | Creates the minting script for the NFT.
+-- Creates the validator script for the NFT.
 {-# INLINABLE mkValidator #-}
 mkValidator :: NFTCounterParams -> Integer -> BuiltinData -> ScriptContext -> Bool
 mkValidator cp d _ ctx = {-counterInOutput scriptOutput &&-}
@@ -76,25 +76,28 @@ mkValidator cp d _ ctx = {-counterInOutput scriptOutput &&-}
             [(s1, t1, _), (s2, t2, _)] | s2 == cSymbol && s1 == Ada.adaSymbol -> unTokenName t2
             _                                                                 -> traceError ""
             {-_                                                                 -> traceError "Counter misplaced"-}
-
+        -- Get counter datum, if it exists
         newCounter :: Maybe Integer
         newCounter = do 
            dh                 <- txOutDatumHash $ scriptOutput
            Datum counterDatum <- findDatum dh info
            PlutusTx.fromBuiltinData counterDatum
-
+           
+        -- Get counter output
         scriptOutput :: TxOut
         scriptOutput = case getContinuingOutputs ctx of
             [out] -> out
             _     -> traceError ""
             {-_     -> traceError "Expected 1 output"-}
-
+        
+        -- Check that asset name is incremented and prefixed correctly
         isValidAssetName :: Integer -> TokenName -> Bool
         isValidAssetName oldCount name = assetNameCount == newCountHex
             where
                 assetNameCount = unTokenName name
                 newCountHex = appendByteString (getCounterName scriptOutput) $ intToHexInner (oldCount + 1) emptyByteString 
-
+        
+        -- Check if counter is incremented
         isNewCountValid :: Integer -> Maybe Integer -> Bool
         isNewCountValid old (Just new) = new == old + 1 &&
                                          new <= mintLimit
