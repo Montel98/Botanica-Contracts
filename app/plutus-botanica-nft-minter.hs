@@ -1,17 +1,3 @@
-{-|
-Module      : plutus-horrocubes-tokens.
-Description : Application to generate NFTs using smart contracts.
-License     : Apache-2.0
-Maintainer  : angel.castillob@protonmail.com
-Stability   : experimental
--}
-
--- LANGUAGE EXTENSIONS --------------------------------------------------------
-
-{-# LANGUAGE OverloadedStrings #-}
-
--- IMPORTS --------------------------------------------------------------------
-
 import Cardano.Api                         hiding (TxId)
 import Data.String                         (IsString (..))
 import Ledger
